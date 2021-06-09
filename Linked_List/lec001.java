@@ -46,7 +46,6 @@ public class lec001 {
             ListNode prev = null;
             while(curr!=null){
                 ListNode forw = curr.next;
-                
                 curr.next = prev;
                 prev = curr;
                 curr= forw;
