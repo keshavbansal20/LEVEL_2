@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+import java.util.LinkedList;
 public class l001{
     public static class Edge{
         int v = 0 , w = 0;
@@ -126,9 +126,66 @@ public class l001{
         //  System.out.println(dfs_findPath(graph, 0, 6, vis));
         // int res = printAllPath(graph, 0, 6, "", 0, vis);
         // System.out.println(res);
-        getConnectedComponent(graph);
+        // getConnectedComponent(graph);
+        // BFS_forCycle(graph , 0 , vis);
+        BFS_withoutCycle(graph , 0 , vis);
     }
 
+    //O(E)
+    public static void BFS_forCycle(ArrayList<Edge>[] graph , int src , boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        int level = 0;
+        boolean iscycle = false;
+        
+        while(que.size()!=0){
+            int size = que.size();
+            System.out.print("Min No Edges: " + level + " -> ");
+            while(size-->0){
+                int rvtx = que.removeFirst();
+
+                //for check cycle
+                if(vis[rvtx]){
+                    iscycle = true;
+                    continue;
+                }
+                System.out.print(rvtx+" ,");
+                vis[rvtx] = true;
+                for(Edge e:graph[rvtx]){
+                    if(!vis[e.v])
+                        que.addLast(e.v);
+                }
+            }
+            System.out.println();
+            level++;
+        }
+    }
+
+
+    //o(v)
+    public static void BFS_withoutCycle(ArrayList<Edge>[] graph , int src , boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        int level = 0;
+        que.addLast(src);
+        vis[src]=true; //mark visired
+        while(que.size() !=0){
+            int size = que.size();
+            System.out.print("Min No. of Edges: "+ level +  " -> " );
+            while(size-- >0){
+                int rvtx = que.removeFirst();
+                System.out.print(rvtx+ ", ");
+                for(Edge e:graph[rvtx]){
+                    if(!vis[e.v]){
+                        vis[e.v]=true;
+                        que.addLast(e.v);
+                    }
+                }
+                System.out.println();
+                level++;
+            }
+        }
+        
+    }
     public static void main(String[] args){
         constructGraph();
     }

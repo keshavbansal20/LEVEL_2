@@ -118,6 +118,7 @@ public class l001BT{
         kDown(root.right, blockNode, k-1, ans);
     }
 
+    
     public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
         ArrayList<TreeNode> path = new ArrayList<>();
         nodeToRootPath(root, target.val, path);
@@ -133,7 +134,7 @@ public class l001BT{
 
         return ans;
     }
-
+    //1 way of kdown    
     public void kdown(TreeNode node ,TreeNode blockNode , int k , ArrayList<Integer> ans){
         if(node==null ||blockNode==node || k<0 ) return;
         if(k==0){
@@ -143,6 +144,7 @@ public class l001BT{
         kdown(node.left, blockNode, k-1, ans);
         kdown(node.right, blockNode, k-1, ans);
     }
+    //2  way of kdown 
 
     public int distance_01(TreeNode root , TreeNode target , int k , ArrayList<Integer> ans){
         if(root==null){
@@ -177,6 +179,7 @@ public class l001BT{
         kdown(root.right, time+1, blockNode, ans);
         }
     }
+
     public int burningTree(TreeNode root , TreeNode target , ArrayList<Integer> ans){
         if(root==null){
             return -1;
@@ -210,7 +213,7 @@ public class l001BT{
         kdown(root.left, time + 1, blockNode, ans);
         kdown(root.right, time + 1, blockNode, ans);
         }
-
+        
         // -1 : did we gett the target node, -2 : fire will not reach that node, t > 0 :
         // fire will reach with time t.
         public static int burningTreeWithWater(TreeNode root, int target, ArrayList<ArrayList<Integer>> ans,
@@ -258,7 +261,7 @@ public class l001BT{
 
 
       // LCA===================================================================
-
+    //2nd Method of LCA
     TreeNode LCA = null;
 
     public boolean lowestCommonAncestor_(TreeNode node, TreeNode p, TreeNode q) {

@@ -159,7 +159,11 @@ public class l002_ConstructionSet{
         return constructFromPrePost(pre, 0, n - 1, post, 0, n - 1);
     }
 
-    // HM_:https://practice.geeksforgeeks.org/problems/construct-tree-from-inorder-and-levelorder/1
+    // bt from levelorder and inorder 
+    //  https://practice.geeksforgeeks.org/problems/construct-tree-from-inorder-and-levelorder/1
+    
+
+    //bt from inorder  , preorder and postorder
 
     // https://www.geeksforgeeks.org/check-if-given-preorder-inorder-and-postorder-traversals-are-of-same-tree/
 
@@ -255,6 +259,16 @@ public class l002_ConstructionSet{
         return root;
     }
 
+    //LeeCode or GFG
+    public class Node{
+        int val;
+        Node left;
+        Node right;
+        Node parent;
+        Node(int val){
+            this.val = val;
+        }
+    }
     public Node inorderSuccessor(Node node) {
 
         Node succ = null;
