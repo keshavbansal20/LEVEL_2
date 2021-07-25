@@ -95,6 +95,43 @@ public class dfs_Questions {
         }
         return 4 * onceCount - 2 * nbrCount;
     }
+    //2nd
+    public int dfs_perimeter(int[][] grid , int i , int j , int[][] dir){
+        
+        int n = grid.length , m = grid[0].length;
+       if(grid[i][j]==-1){
+           return 0;
+       }
+       grid[i][j]=-1;
+       int per = 0;
+       for(int d = 0 ; d < 4; d++){
+           int r = i + dir[d][0];
+           int c= j+dir[d][1];
+           if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c]==0)                                        
+            per++;
+           if(r>=0 && c>=0 && r<n && c<m && grid[r][c] == 1){
+               per+=dfs_perimeter(grid , r , c , dir);
+               
+           }
+         
+           
+       }
+       return per;
+   }
+   public int islandPerimeterdfs(int[][] grid) {
+       int n = grid.length , m = grid[0].length;
+       int[][] dir = {{-1 , 0 },{1,0} , {0 , 1} , {0,-1}};
+       // int res = 0;
+       for(int i = 0 ; i < n;i++){
+           for(int j = 0; j<m;j++){
+               if(grid[i][j]==1){
+                    return dfs_perimeter(grid , i , j , dir);
+               }
+           }
+       }
+       // return res;
+       return 1;
+   }
 
      // 130
      public void surrounded_DFS(char[][] grid, int i, int j, int[][] dir) {
@@ -125,7 +162,7 @@ public class dfs_Questions {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (grid[i][j] == '$')
+                if (grid[i][j] == '$')  
                     grid[i][j] = 'O';
                 else
                     grid[i][j] = 'X';
