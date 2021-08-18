@@ -33,7 +33,7 @@ public class l006_DiaSet {
     public static int height(TreeNode root) {
         return root == null ? -1 : Math.max(height(root.left), height(root.right)) + 1;
     }
-
+    
     public static int diameter_01(TreeNode root) {
         if (root == null)
             return 0;
@@ -46,7 +46,7 @@ public class l006_DiaSet {
         return Math.max(Math.max(ld, rd), lh + rh + 2);
     }
 
-    // {diameter,height}
+    // {diameter,height}  // class method with array wala system
     public static int[] diameter_02(TreeNode root) {
         if (root == null) {
             return new int[] { 0, -1 };
@@ -56,12 +56,13 @@ public class l006_DiaSet {
         int[] rp = diameter_02(root.right);
 
         int[] myAns = new int[2];
+        //0:maxdiameter of tree , 1: curr node height
         myAns[0] = Math.max(Math.max(lp[0], rp[0]), lp[1] + rp[1] + 2);
         myAns[1] = Math.max(lp[1], rp[1]) + 1;
 
         return myAns;
     }
-
+    //head mover : only height change at every node but diameter change only few time so we take it on static 
     public static int diameter_03(TreeNode root, int[] dia) {
         if (root == null)
             return -1;
@@ -120,7 +121,7 @@ public class l006_DiaSet {
         int LTLMaxSum = -(int) 1e9; // Leaves to Leaves Max Sum
         int NTLMaxSum = -(int) 1e9; // Node to Leaves Max Sum.
     }
-
+    //this is class based solutoiin
     public static leafToLeafPair maxLeafSum(Node root) {
         if (root == null) {
             return new leafToLeafPair();
@@ -144,6 +145,28 @@ public class l006_DiaSet {
 
         myRes.NTLMaxSum = Math.max(lRes.NTLMaxSum, rRes.NTLMaxSum) + root.data;
         return myRes;
+    }
+    //0: Max LTL(Leaf to Leaf sum) 1: curr node NTL(Node to Leavesum)
+    //this is array based solution
+    public static int[] mls(Node root){
+        if(root==null) return new int[]{-(int)1e9 ,(int)1e9};
+        int[] l = mls(root.left);
+        int[] r = mls(root.right);
+        if(root.left==null&&root.right==null){
+            int[] base = new int[2];
+            base[1] = root.data;
+            return base;
+        }
+        int[] myAns = new int[2];
+        myAns[0] = Math.max(l[0],r[0]); 
+        // if any one node is null 
+        if(root.left!=null && root.right!=null){
+            myAns[0] = Math.max(myAns[0] , l[1]+root.data+r[1]);
+        }
+        myAns[1] = Math.max(l[1],r[1]) + root.data;
+        return myAns;
+
+
     }
 
     int maxPathSum(Node root) {
@@ -195,7 +218,7 @@ public class l006_DiaSet {
         int lr = minCameraCover_(root.left, countOfCamera);
         int rr = minCameraCover_(root.right, countOfCamera);
 
-        if (lr == -1 || rr == -1) {
+        if (lr == -1 || rr == -1) {//camera reuire so count increase
             countOfCamera[0]++;
             return 1;
         }
