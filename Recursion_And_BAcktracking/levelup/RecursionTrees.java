@@ -128,7 +128,7 @@ public class RecursionTrees {
             return 0;
         }
         int count = 0;
-        if(tar-arr[idx]>=0){
+        if(arr[idx] > 0 && tar-arr[idx]>=0){
             int val = arr[idx];
             arr[idx] = - arr[idx];
             count+=permutationWithSingleCoin_subSeq(arr, tar-arr[idx], 0, ans+arr[idx]);
@@ -188,6 +188,24 @@ public class RecursionTrees {
 
     }
 
+    public static int queenPermutation_subSeq(boolean[] tbox , int tqns , int qpsf , int bn , String ans){
+        if(tbox.length==bn || qpsf==tqns){
+            if(qpsf==tqns){
+                System.out.println(ans);
+                return 1;
+            }
+            return 0;
+        }
+        int count= 0;
+        if(!tbox[bn]){
+            tbox[bn] = true;
+            count+=queenPermutation_subSeq(tbox , tqns , qpsf+1 , 0 , ans+"b"+ "q"+qpsf+" " );
+            tbox[bn] = false;
+        }
+        count+=queenPermutation_subSeq(tbox, tqns, qpsf, bn+1, ans);
+        
+        return count;
+    }
     public static void coinChange(){
 
         int[] arr = { 2, 3 , 5 , 7};
@@ -206,6 +224,7 @@ public class RecursionTrees {
         // System.out.println(queenCombination(6 , 4 , 0 , 0 , ""));
         // System.out.println(queenPermutation(boxes, 4 , 0 , 0 , ""));
         // System.out.println(queenCombination_subSeq(6 , 4 , 0 , 0 ,""));
+        System.out.println(queenPermutation_subSeq(boxes , 3 , 0 , 0, ""));
 
 
 
