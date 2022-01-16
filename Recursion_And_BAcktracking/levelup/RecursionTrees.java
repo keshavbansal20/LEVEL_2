@@ -170,6 +170,24 @@ public class RecursionTrees {
         return count;
 
     }
+
+
+    public static int queenCombination_subSeq(int tbox , int tqns , int qpsf , int bn , String ans){
+        if(tbox==bn || qpsf==tqns){
+            if(qpsf==tqns){
+                System.out.println(ans);
+                return 1;
+            }
+            return 0;
+        }
+
+        int count = 0;
+        count+=queenCombination_subSeq(tbox , tqns , qpsf+1 , bn+1 , ans+"b"+bn+"q"+qpsf+" ");
+        count+=queenCombination_subSeq(tbox, tqns, qpsf, bn+1, ans);
+        return count;
+
+    }
+
     public static void coinChange(){
 
         int[] arr = { 2, 3 , 5 , 7};
@@ -186,7 +204,8 @@ public class RecursionTrees {
     public static void queenSet(){
         boolean[] boxes = new boolean[6];
         // System.out.println(queenCombination(6 , 4 , 0 , 0 , ""));
-        System.out.println(queenPermutation(boxes, 4 , 0 , 0 , ""));
+        // System.out.println(queenPermutation(boxes, 4 , 0 , 0 , ""));
+        // System.out.println(queenCombination_subSeq(6 , 4 , 0 , 0 ,""));
 
 
 
