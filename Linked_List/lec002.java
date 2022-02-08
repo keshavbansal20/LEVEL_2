@@ -81,7 +81,7 @@ public class lec002 {
             return head;
 
         ListNode slow = head;
-        ListNode fast = head;
+        ListNode fast = head;   
 
         while (n-- > 0) {
             fast = fast.next;
@@ -92,7 +92,7 @@ public class lec002 {
             rnode.next = null;
             return head;
 
-        }
+        }   
         while (fast.next != null) {
             slow = slow.next;
             fast = fast.next;
@@ -253,7 +253,7 @@ public class lec002 {
                 lp.next = curr; //link
                 lp = lp.next; //move
             }
-            curr = curr.next //move
+            curr = curr.next; //move
         }
 
       sp.next = pivotNode;
@@ -277,7 +277,7 @@ public class lec002 {
             int sum = carry + (c1 != null ? c1.val : 0) + (c2 != null ? c2.val : 0);
             carry = sum / 10;
             sum = sum % 10;
-            ListNode prev = new ListNode(sum);
+            prev.next = new ListNode(sum);
             prev = prev.next;
 
             if (c1 != null) {
@@ -297,37 +297,42 @@ public class lec002 {
     }
 
     public static ListNode substract(ListNode l1, ListNode l2) {
-        l1 = reverseList(l1);
-        l2 = reverseList(l2);
-        ListNode dummy = new ListNode(-1);
-        ListNode c1 = l1, c2 = l2, prev = dummy;
-        int borrow = 0;
-        while (c1 != null | c2 != null) {
-            int diff = borrow + (c1 != null ? c1.val : 0) - (c2 != null ? c2.val : 0);
-            if (diff < 0) {
-                diff += 10;
-                borrow = -1;
-            } else {
-                borrow = 0;
+        if(l2==null) return l1;
+        if(l1==null){
+            l2.val = -l2.val;
+            return l2;
+        }
+            l1 = reverseList(l1);
+            l2 = reverseList(l2);
+            ListNode dummy = new ListNode(-1);
+            ListNode c1 = l1, c2 = l2, prev = dummy;
+            int borrow = 0;
+            while (c1 != null | c2 != null) {
+                int diff = borrow + (c1 != null ? c1.val : 0) - (c2 != null ? c2.val : 0);
+                if (diff < 0) {
+                    diff += 10;
+                    borrow = -1;
+                } else {
+                    borrow = 0;
+                }
+
+                prev.next = new ListNode(diff);
+                prev = prev.next;
+
+                if(c1!=null)
+                    c1= c1.next;
+                if(c2!=null)
+                    c2 = c2.next;
             }
 
-            prev.next = new ListNode(diff);
-            prev = prev.next;
-
-            if(c1!=null)
-                c1= c1.next;
-            if(c2!=null)
-                c2 = c2.next;
-        }
-
-        ListNode head = dummy.next;
-        head = reverseList(head);
-        while(head!=null && head.val==0){ 
-            head = head.next;
-        }
-        l1 = reverseList(l1);
-        l2 = reverseList(l2);
-        return head;
+            ListNode head = dummy.next;
+            head = reverseList(head);
+            while(head!=null && head.val==0){ 
+                head = head.next;
+            }
+            l1 = reverseList(l1);
+            l2 = reverseList(l2);
+            return head;
     }
 
     public static boolean hasCycle(ListNode head) {
@@ -345,8 +350,10 @@ public class lec002 {
         }
         return false;
     }
+
     //cycle ka starting point return kr rhe hai 
     public static ListNode CycleNode(ListNode head){
+        
         if(head==null || head.next==ull){
             return null;
         }
@@ -451,7 +458,7 @@ public class lec002 {
         }
 
         return null;
-    }
+    }   
 
     public ListNode removeDuplicates(ListNode head){
         if(head==null || head.next==null){

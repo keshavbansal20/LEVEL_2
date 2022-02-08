@@ -82,7 +82,7 @@ public class l005_traversal {
         if (prev[0] != null && prev[0].val >= root.val)
             return false;
         prev[0] = root;
-
+                  
         if (!isValidBST(root.right, prev))
             return false;
 
@@ -176,7 +176,7 @@ public class l005_traversal {
 
         return -1;
     }
-
+    
     public static TreeNode BSTToDLL(TreeNode root, int k) {
         TreeNode dummy = new TreeNode(-1);
         TreeNode curr = root, prev = dummy;

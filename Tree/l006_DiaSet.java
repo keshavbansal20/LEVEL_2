@@ -37,7 +37,7 @@ public class l006_DiaSet {
     public static int diameter_01(TreeNode root) {
         if (root == null)
             return 0;
-        int ld = diameter_01(root.left);
+        int ld = diameter_01(root.left); 
         int rd = diameter_01(root.right);
 
         int lh = height(root.left);
@@ -62,6 +62,7 @@ public class l006_DiaSet {
 
         return myAns;
     }
+
     //head mover : only height change at every node but diameter change only few time so we take it on static 
     public static int diameter_03(TreeNode root, int[] dia) {
         if (root == null)
@@ -90,6 +91,7 @@ public class l006_DiaSet {
 
     // 113
     public void pathSum(TreeNode root, int targetSum, List<Integer> smallAns, List<List<Integer>> ans) {
+    
         if (root == null)
             return;
 
@@ -106,6 +108,7 @@ public class l006_DiaSet {
         pathSum(root.right, targetSum - root.val, smallAns, ans);
 
         smallAns.remove(smallAns.size() - 1);
+
     }
 
     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
@@ -121,7 +124,8 @@ public class l006_DiaSet {
         int LTLMaxSum = -(int) 1e9; // Leaves to Leaves Max Sum
         int NTLMaxSum = -(int) 1e9; // Node to Leaves Max Sum.
     }
-    //this is class based solutoiin
+
+    //this is class based solutoin
     public static leafToLeafPair maxLeafSum(Node root) {
         if (root == null) {
             return new leafToLeafPair();
@@ -171,7 +175,7 @@ public class l006_DiaSet {
 
     int maxPathSum(Node root) {
         int ans = maxLeafSum(root).LTLMaxSum;
-        int ans2 = maxLeafSum(root).NTLMaxSum;
+        int ans2 = maxLeafSum(root).NTLMaxSum; //agar left node ya right node hi nhi toh LTL update nhi hoga -inf hi rhgea isliye NTL return krenge;    
 
         return ans != -(int) 1e9 ? ans : Math.max(ans, ans2);
     }

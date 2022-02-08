@@ -166,18 +166,19 @@ public class l001BT{
         }
         return -1;
     }
+
     //buring tree
     public static void kdown(TreeNode root , int time , TreeNode blockNode , ArrayList<ArrayList<Integer>> ans){
         if(root==null || root == blockNode){
             return;
         }
-        if(time==ans.size()){
+        if(time==ans.size())
             ans.add(new ArrayList<>());
         ans.get(time).add(root.val);
         
-        kdown(root.left, time+1, blockNode, ans);
-        kdown(root.right, time+1, blockNode, ans);
-        }
+            kdown(root.left, time+1, blockNode, ans);
+            kdown(root.right, time+1, blockNode, ans);
+        
     }
 
     public int burningTree(TreeNode root , TreeNode target , ArrayList<Integer> ans){
@@ -201,17 +202,16 @@ public class l001BT{
         return -1;
     }
 
-    public static void kdown(TreeNode root, int time, TreeNode blockNode, ArrayList<ArrayList<Integer>> ans,
-    HashSet<Integer> water) {
+    public static void kdown(TreeNode root, int time, TreeNode blockNode, ArrayList<ArrayList<Integer>> ans,HashSet<Integer> water) {
         if (root == null || root == blockNode || water.contains(root.val))
             return;
 
-        if (time == ans.size())
-            ans.add(new ArrayList<>());
-        ans.get(time).add(root.val);
+             if (time == ans.size())
+                ans.add(new ArrayList<>());
+            ans.get(time).add(root.val);
 
-        kdown(root.left, time + 1, blockNode, ans);
-        kdown(root.right, time + 1, blockNode, ans);
+            kdown(root.left, time + 1, blockNode, ans);
+            kdown(root.right, time + 1, blockNode, ans);
         }
         
         // -1 : did we gett the target node, -2 : fire will not reach that node, t > 0 :
@@ -286,4 +286,32 @@ public class l001BT{
         return LCA;
     }
 
+    public static class pair{
+        TreeNode node;
+        int idx;
+        pair(TreeNode node , int idx){
+            this.node = node;
+            this.idx = idx;
+        }
+    }
+
+    public static int maxwidth(TreeNode node){
+        LinkedList<pair> que = new LinkedList<>();
+        que.addFirst(new pair(node , 0));
+        int max = 0;
+        while(que.size()>0){
+            int s = que.size();
+            int lm = que.getFirst().idx;
+            int rm = que.getFirst().idx;
+            while(s-->0){
+                pair rp = que.removeFirst();
+                rm = rp.idx;
+                if(rp.node.left!=null) que.addFirst(new pair(rp.node.left , 2*rm+1 ));
+                if(rp.node.right!=null) que.addFirst(new pair(rp.node.right , 2*rm+2 ));
+
+            }
+            max = rm-lm+1;
+        }
+        return max;
+    }
 }

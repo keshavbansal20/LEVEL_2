@@ -10,6 +10,9 @@ public class l001BT_VIEW {
             this.right = null;
         }
     }
+    
+       
+    }
     public static void levelOrder(TreeNode root){
         LinkedList<TreeNode> que = new LinkedList<>();
         que.addLast(root);
@@ -31,12 +34,15 @@ public class l001BT_VIEW {
         }
 
         int count = 0;
-        for(var list:ans){
+        for(ArrayList<Integer> list:ans){
             System.out.println(count++ +" -> " +list);
         }
     }
 
     public static List<Integer> leftView(TreeNode root){
+        if(root==null){
+            return new ArrayList<>();
+        }
         LinkedList<TreeNode> que = new LinkedList<>();
         que.addLast(root);
         List<Integer> ans = new ArrayList<>();
@@ -108,6 +114,8 @@ public class l001BT_VIEW {
         }
     }
 
+
+    //print root value in vertical order
     public static ArrayList<ArrayList<Integer>> verticalOrderTraversal(TreeNode root){
         LinkedList<vPair> que = new LinkedList<>();
         int[] minMax = new int[2];
@@ -248,7 +256,7 @@ public class l001BT_VIEW {
         ArrayList<Integer> ans = new ArrayList<>();
         
         for(int i = 0 ; i < length ; i++){
-            ans.add(null);
+            ans.add(0);
         }
         
         while(que.size()>0){

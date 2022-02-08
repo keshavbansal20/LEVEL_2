@@ -133,6 +133,7 @@ public class l002_ConstructionSet{
         return root;
     }
 
+    //need full binary tree otherwise permutation milenge
     public TreeNode constructFromPrePost(int[] pre, int psi, int pei, int[] post, int ppsi, int ppei) {
         if (psi > pei)
             return null;
@@ -161,6 +162,36 @@ public class l002_ConstructionSet{
 
     // bt from levelorder and inorder 
     //  https://practice.geeksforgeeks.org/problems/construct-tree-from-inorder-and-levelorder/1
+    public static TreeNode levelOrderAndInOrder(int[] in , int isi , int iei , int[] levelOrder ){
+        if(isi>iei){
+            return null;
+        }
+        TreeNode node = new TreeNode(levelOrder[0]);
+        if(isi==iei) return node;
+        int idx = isi;
+
+        while(in[idx]!=node.val) idx++;
+
+        HashSet<Integer> set = new HashSet<>();
+        for(int i = isi ; i< idx;i++) set.add(in[i]);
+        int tel = idx - isi;
+        int[] lols = new int[tel];
+        int[] lors = new int[iei-idx]; 
+        int ls = 0 , rs = 0;
+        for(int i = 1; i < levelOrder.length ;i++){
+            int ele = levelOrder[i];
+            if(set.size()!=0 && set.contains(ele)){
+                lols[ls++] = ele;
+                set.remove(ele);
+            }else{
+                lors[rs++] = ele;
+            }
+
+        }
+        node.left = levelOrderAndInOrder(in, isi, idx-1, lols);
+        node.right  = levelOrderAndInOrder(in, idx+1, iei, lors);
+        return node;
+    }
     
 
     //bt from inorder  , preorder and postorder
