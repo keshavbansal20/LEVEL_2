@@ -60,7 +60,7 @@ public class bfs_Question {
             int size = que.size();
             while (size-- > 0) {
                 int idx = que.removeFirst();
-                int sr = idx / m, sc = idx % m;cthis
+                int sr = idx / m, sc = idx % m;
 
                 if (sr == n - 1 && sc == m - 1)
                     return shortestPath;

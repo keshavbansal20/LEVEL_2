@@ -300,6 +300,7 @@ public class l002_ConstructionSet{
             this.val = val;
         }
     }
+    //leetcode 510
     public Node inorderSuccessor(Node node) {
 
         Node succ = null;
@@ -319,6 +320,9 @@ public class l002_ConstructionSet{
         return node.parent;
     }    //Inorder successor and predecessor
        
+    //maimum width of binary tree leetcode 662
+    //leetcode 1382
+    //leetcode 109
     
     
 }

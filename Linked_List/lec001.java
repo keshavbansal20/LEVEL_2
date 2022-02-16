@@ -238,6 +238,7 @@ public class lec001 {
         
         return mergeTwoLists(leftMergedList , rightMergedList);
     }
+    
     public ListNode mergeKLists_2(ListNode[] lists) {
             if(lists.length==0){
                 return null;

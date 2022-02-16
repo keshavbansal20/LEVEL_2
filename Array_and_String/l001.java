@@ -1,4 +1,7 @@
 import java.lang.annotation.Target;
+import java.util.ArrayList;
+
+import org.omg.CORBA.SystemException;
 
 public class l001 {
     
@@ -404,8 +407,260 @@ public class l001 {
         return res;
         
     }
+
+    //Leetcode 537
+    public String complexNumberMultiply(String num1, String num2) {
+        int a1 = Integer.parseInt(num1.substring(0 , num1.indexOf("+")));
+        int b1 = Integer.parseInt(num1.substring(num1.indexOf("+")+1 , num1.length()-1));
+        int a2 = Integer.parseInt(num2.substring(0 , num2.indexOf("+")));
+        int b2 = Integer.parseInt(num2.substring(num2.indexOf("+")+1 , num2.length()-1));
+        int a = a1*a2 - b1*b2;
+        int b = a1*b2+a2*b1;
         
+        return a+"+"+b+"i";
+
+    }
+
+    //gfg Minimum platform or max trains
+    static int findPlatform(int arr[], int dep[], int n)
+    {
+        // add your code here
+        	Arrays.sort(arr);
+    	Arrays.sort(dep);
+    	int i = 0;
+    	int j = 0;
+    	int platform= 0;
+    	int max = 0;
+    	while(i< arr.length){
+    	    if(arr[i]<=dep[j]){
+    	        platform++;
+    	        i++;
+    	    }else{
+    	        platform--;
+    	        j++;
+    	    }
+    	    max = Math.max(platform , max);
+    	}
+    	return max;
+    }
+
+    public static void printPrimeUsingSieve(int n) {
+        //pre calculation
+        boolean[] isprime = new boolean[n+1];
+        Arrays.fill(isprime , true);
+
+        for(int i=2 ; i*i<=n ; i++){
+            if(isprime[i]==false){
+                continue;  //kuki multiple bhi prime mark hochuke honge
+            }
+            for(int j = i+i ; j <=n ; j+=i){
+                isprime[j] =false;
+            }
+        }
+
+        for(int i= 2 ; i <=n ; i++){
+            if(isprime[i]==true) {
+                System.out.print(i+" ");
+            }
+        }
+    }
+
+    //segemented sieve
+    private static ArrayList<Integer> sieve(int n){
+        //pre calculation
+        boolean[] isprime = new boolean[n+1];
+    
+        //begin from 2 to root(n)
+        for(int i=2 ; i*i<=n ; i++){
+            if(isprime[i]==true){
+                continue;  //kuki multiple bhi prime mark hochuke honge
+            }
+            for(int j = i+i ; j <=n ; j+=i){
+                isprime[j] =true;
+            }
+        }
+        ArrayList<Integer> res = new ArrayList<>();
+        for(int i= 2 ; i <=n ; i++){
+            if(isprime[i]==false) {
+               res.add(i);
+            }
+        }
+        return res;
+    }
+    public static void segmentedSieveAlgo(int a, int b) {
+        int rootb = (int)Math.sqrt(b);
+        ArrayList<Integer> primes = sieve(rootb);
+
+        int m = b-a;
+        boolean[] isprime = new boolean[m +1];
+        for(int prime:primes){
+            int multiple = (int) Math.ceil(a*1.0/prime);
+            if(multiple==1) multiple++;
+            int si = multiple*prime-a;
+            for(int i = si ; i <isprime.length; i+=prime){
+                    isprime[i] = true; //mark it as not prime;
+            }
+        }
+        //travel and print prime
+        for(int i = 0 ; i < isprime.length ; i++){
+            if(isprime[i]==false && i+a!=1){
+                System.out.println(i+a);
+            }
+        }
+      }
+    //find pair with given diff
+    public boolean findPair(int arr[], int size, int n)
+    {
+        //code here.
+        Arrays.sort(arr);
+        int left = 0;
+        int right =1;
+        while(right<size){
+            int diff = arr[right] - arr[left];
+            if(diff==n){
+                return true;
+            }else if(diff>n){
+                left++;
+            }else{
+                right++;
+            }
+        }
+        return false;
+    }
+    //Leetcode 881
+    public int numRescueBoats(int[] people, int capacity) {
+        Arrays.sort(people);
+        int left = 0;
+        int right = people.length-1;
+        int boats =0;
+        while(left<=right){
+            int sum =people[left]+people[right];
+            if(sum>capacity){
+                right--;
+            }else{
+                left++;
+                right--;
+            }
+            boats++;
+        }
+        return boats;
+    }
+
+    //tranpose 1
+    public int[][] transpose(int[][] matrix) {
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int[][] res =new int[col][row];
+       for(int r = 0 ; r < col ; r++){
+           for(int c = 0 ; c < row ; c++){
+               res[r][c] = matrix[c][r];
+           }
+       }
+        return res;
+    }
+
+    //tranpose2 portal
+    public static void transpose2(int[][] matrix) {
+        // write your code here
+        for(int i=0 ; i < matrix.length ; i++){
+            for(int j = 0 ; j < i ; j++){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        }
+    }
+
+    //rotate by 90
+    public void rotate(int[][] matrix) {
+        transpose2(matrix);
+        //reverse row
+        for(int r = 0 ; r < matrix.length ; r++){
+            int left =0 ;
+            int right = matrix[0].length-1;
+            while(left<right){
+                int temp = matrix[r][left];
+                matrix[r][left] = matrix[r][right];
+                matrix[r][right] = temp;
+                left++;
+                right--;
+            }
+        }
+    }
+
+    //Push Dominoes
+
+    public void solveConfig(char[] arr , int i , int j){
+        if(arr[i]=='L' && arr[j]=='L'){
+            for(int k= i+1;  k < j;k++){
+                arr[k]='L';
+            }
+        }else if(arr[i]=='R' && arr[j]=='R'){
+            for(int k= i+1;  k < j;k++){
+                arr[k]='R';
+            }
+        }else if(arr[i]=='L' && arr[j]=='R'){
+            //nothing
+        }else{
+            int left = i+1;
+            int right = j-1;
+            while(left<right){
+                arr[left]='R';
+                arr[right]='L';
+                left++;
+                right--;
+            }
+        }
         
+    }
+    public String pushDominoes(String s) {
+        int n = s.length();
+        char[] arr= new char[n+2];
+        arr[0] ='L';
+        arr[n+1]='R';
+        for(int i = 0 ; i < n;i++){
+            arr[i+1] = s.charAt(i);
+        }
+        int i = 0;
+        int j =1;
+        while(j < arr.length){
+            while(arr[j]=='.'){
+                j++;
+            }
+            if(j-i>1){
+                solveConfig(arr ,i , j);
+            }
+            i = j;
+            j++;
+        }
+
+        // String res = "";
+        // for(int k = 1; k < arr.length - 1; k++) {
+        //     res += arr[k];
+        // }
+        // return res;
+
+        StringBuilder sb = new StringBuilder();
+        for(int k= 1 ; k < arr.length-1;k++){
+            sb.append(arr[k]);
+        }
+        return sb.toString();
+
+
+    }
+
+    //Leetcode 829 
+    public int consecutiveNumbersSum(int n) {
+        int count = 0;
+        for(int i = 1; i*(i-1) < (2*n) ; i++){
+            //we have to find it is possible to make sum with i numbers
+            int numerator = n - ((i-1)*i)/2;
+            if(numerator%i==0){
+                count++;
+            }
+        }
+        return count;
+    }
     public static void main(String[] args){
 
     }
