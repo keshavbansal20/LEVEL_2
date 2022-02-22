@@ -64,29 +64,33 @@ public class l001{
          int[] dp = new int[n+1];
          System.out.println(fibo_memo(n, dp));
      }
+
+     //total no of paths from all given direction
+
      //f(x , y) = f(x+1 , y) + f(x , y+1)+ f(x+1 , y+1);
 
-     public static int mazepath_memo(int[][] arr, int sr ,int sc , int er , int ec , int[][] dp ){
+     public static int mazepath_memo( int sr ,int sc , int er , int ec ,int[][] dir , int[][] dp ){
          if((sr==er && sc == ec)){
              return dp[sr][sc] =1;
-            //  continue;
+    
          }
-         if(dp[sr][sc]!=-1)return dp[sr][sc];
-         int count = 0;
+         if(dp[sr][sc]!=0)
+            return dp[sr][sc];
+         
+        int count = 0;
          for(int d = 0;d<3;d++){
              int r = sr+dir[d][0];
              int c = sc+dir[d][1];
-             if(r>=arr.length && c>=arr[0].length){
-                  count+=mazepath_memo(arr, r, c, er, ec,dp);
-                    
+             if(r>=0 && c>=0 && r<=er && c<=ec){
+                  count+=mazepath_memo( r, c, er, ec,dir , dp);
              }
-             dp[r][c] = count;
          }
-        return count;
+        dp[sr][sc] = count;
+            return count;
          
      }
 
-     public static int mazepath_tabu(int[][] arr, int SR ,int SC , int er , int ec , int[][] dp ){
+     public static int mazepath_tabu( int SR ,int SC , int er , int ec , int[][] dir , int[][] dp ){
         for(int sr = er;sr>=SR;sr--){
             for(int sc = ec;sc>= SC;sc--){
                 if((sr==er && sc == ec)){
@@ -97,44 +101,121 @@ public class l001{
                 for(int d = 0;d<3;d++){
                     int r = sr+dir[d][0];
                     int c = sc+dir[d][1];
-                    if(r>=arr.length && c>=arr[0].length){
-                         count+=mazepath_tabu(arr, r, c, er, ec,dp);
+                    if(r<=er && c<=ec){
+                         count+=dp[r][c];
                            
                     }
-                    dp[r][c] = count;
+                    dp[sr][sc] = count;
                 }
-               return dp[SR][SC];
-        
-
+                
+                
             }
         }
+        return dp[SR][SC];
                 
     }
 
-    public static int mazepathjump_tabu(int[][] arr, int SR ,int SC , int er , int ec , int[][] dp ){
-        for(int sr = er;sr>=SR;sr--){
-            for(int sc = ec;sc>= SC;sc--){
-                if((sr==er && sc == ec)){
-                     dp[sr][sc] =1;
+    public static int mazepathjump_tabu( int SR ,int SC , int er , int ec , int[][] dir , int[][] dp ){
+        for (int sr = er; sr >= SR; sr--) {
+            for (int sc = ec; sc >= SC; sc--) {
+                if (sr == er && sc == ec) {
+                    dp[sr][sc] = 1;
                     continue;
                 }
+
                 int count = 0;
-                for(int d = 0;d<3;d++){
-                    int r = sr+dir[d][0];
-                    int c = sc+dir[d][1];
-                    while(r>=arr.length && c>=arr[0].length){
-                         count+=mazepathjump_tabu(arr, r, c, er, ec,dp);
-                           r+=dir[d][0];
-                           c+=dir[d][1];
+                for (int[] d : dir) {
+                    int r = sr + d[0];
+                    int c = sc + d[1];
+                    while (r <= er && c <= ec) {
+                        count += dp[r][c];// mazePath(r, c, er, ec, dir, dp);
+                        r += d[0];
+                        c += d[1];
                     }
-                    dp[r][c] = count;
                 }
-               return dp[SR][SC];
+
+                dp[sr][sc] = count;
             }
         }
+
+        return dp[SR][SC];
                 
     }
 
+    public static void mazepath_set(){
+        int sr = 0 , sc = 0 , er = 2  , ec =2;
+        int[][] dp = new int[er+1][ec+1];
+        int[][] dir = {{0 , 1} , {1 , 0} ,{1 , 1}};
+        System.out.println(mazepath_memo(sr , sc , er , ec , dir , dp));
+        System.out.println(mazepath_tabu(sr , sc , er , ec , dir , dp));
+        System.out.println(mazepathjump_tabu(sr , sc , er , ec , dir , dp));
+
+    }
+
+// Gold Mine.
+public static int goldMine_memo_(int sr, int sc, int[][] mat, int[][] dir, int[][] dp) {
+    if (sc == mat[0].length - 1) {
+        return dp[sr][sc] = mat[sr][sc];
+    }
+
+    if (dp[sr][sc] != -1)
+        return dp[sr][sc];
+
+    int maxGold = 0;
+    for (int[] d : dir) {
+        int r = sr + d[0];
+        int c = sc + d[1];
+
+        if (r >= 0 && c >= 0 && r < mat.length && c < mat[0].length)
+            maxGold = Math.max(maxGold, goldMine_memo_(r, c, mat, dir, dp) + mat[sr][sc]);
+    }
+
+    return dp[sr][sc] = maxGold;
+}
+    public static int goldMine_memo(int n, int m, int[][] mat) {
+        int[][] dir = { { -1, 1 }, { 1, 1 }, { 0, 1 } };
+        int[][] dp = new int[n][m];
+
+        int maxGold = 0;
+        for (int r = 0; r < n; r++) {
+            maxGold = Math.max(maxGold, goldMine_memo_(r, 0, mat, dir, dp));
+        }
+
+        return maxGold;
+    }
+
+    public static int goldMine_Tabu(int SR, int SC, int[][] mat, int[][] dir, int[][] dp) {
+        for (int sc = mat[0].length - 1; sc >= SC; sc--) {
+            for (int sr = mat.length - 1; sr >= SR; sr--) {
+                if (sc == mat[0].length - 1) {
+                    dp[sr][sc] = mat[sr][sc];
+                    continue;
+                }
+
+                int maxGold = 0;
+                for (int[] d : dir) {
+                    int r = sr + d[0];
+                    int c = sc + d[1];
+
+                    if (r >= 0 && c >= 0 && r < mat.length && c < mat[0].length)
+                        maxGold = Math.max(maxGold, dp[r][c] + mat[sr][sc]);
+                }
+
+                dp[sr][sc] = maxGold;
+            }
+        }
+
+        int maxGold = 0;
+        for (int r = 0; r < mat.length; r++) {
+            maxGold = Math.max(maxGold, dp[r][0]);
+        }
+
+        return maxGold;
+    }
+
+    //Leetcode 1219
+    //Leetcode 70
+    //Leetcode 746
     public int minCostClimbingStairs_memo(int[] cost , int n , int[] dp ){
         if(n<=1){
             return dp[n] =cost[n];
@@ -144,6 +225,7 @@ public class l001{
         dp[n] = res ;
         return res;
     }
+
 
 
     public int minCostClimbingStairs(int[] cost) {
