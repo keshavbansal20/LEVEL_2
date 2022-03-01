@@ -403,6 +403,7 @@ public static int goldMine_memo_(int sr, int sc, int[][] mat, int[][] dir, int[]
         }
         return dp[idx] = count;
     }
+    
     public long numDecodingsStar_tabu(String s , int IDX , long[] dp){
         for(int idx =s.length();idx>=0;idx--){
             if(idx==s.length()){

@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class buystock {
     
     public static int Buy_and_sell_stock_1(int[] stocks ){
@@ -53,6 +56,9 @@ public class buystock {
         }
         System.out.println(pist);
     }
+
+
+    
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
