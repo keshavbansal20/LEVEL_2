@@ -16,7 +16,7 @@ public class l001 {
     private static void findcount(HashMap<String , String> map){
         HashMap<String, HashSet<String>>  tree = new HashMap<>();
         String ceo="";
-        for(String emp:map.keySet()){
+        for(String emp:map.keySet()){       
             String man = map.get(emp);
             if(man.equals(emp)){
                 ceo = man;
@@ -283,7 +283,9 @@ public class l001 {
                 map.put(arr2[i] , p);
             }
         }
+
         int[] ans = new int[arr1.length];
+        
         for(int i = 0 ;i < arr1.length ;i++){
             Pair p = map.get(arr1[i]);
             ans[i] = p.list.get(p.idx);

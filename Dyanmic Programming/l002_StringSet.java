@@ -37,9 +37,9 @@ public class l002_StringSet {
                 }
                 
                 if(s.charAt(si)!=s.charAt(ei))
-                    dp[si][ei] =  Math.max(lpss(s , si+1 , ei,dp) ,lpss(s , si  , ei-1,dp));
+                    dp[si][ei] =  Math.max(dp[si+1][ei] , dp[si][ei-1]);
                 else 
-                    dp[si][ei] =  lpss( s, si+1 , ei-1 ,dp)+2; 
+                    dp[si][ei] =  dp[si+1][ei-1]+2; 
                 
             }
         }   
@@ -72,6 +72,31 @@ public class l002_StringSet {
         
         display2D(dp);
         System.out.println(lpss_ReverseEngi(s , 0 , n-1 , dp));
+    }
+
+
+    //max gold wala mine reverse engineering
+
+
+
+    //longest common subs 1143
+
+    public static int lcss(String str1 , int n , String str2 , int m , int[][] dp){
+        if(n==0 ||  m==0){
+            return dp[n][m] = 0;
+        }
+        if(dp[n][m]=-1){
+            return dp[n][m];
+        }
+        if(str1.charAt(n-1)==str2.charAt(n-2)){
+           return dp[n][m] = lcss(str1 , n-1 , str2 , m-1 , dp)+1;
+        }else  {
+            return dp[n][m] = Math.max(lcss(str1 , n ,str2 , m-1 , dp) , lcss(str1 , n-1 , str2 , m ,dp));
+        }
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        
     }
     public static void main(String[] args){
         longestPalindromicSubseq("abaccab");

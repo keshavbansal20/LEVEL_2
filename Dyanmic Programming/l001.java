@@ -281,18 +281,18 @@ public static int goldMine_memo_(int sr, int sc, int[][] mat, int[][] dir, int[]
         }
         if(dp[n]!=-1) return dp[n];
         int count = 0;
-        if((s.charAt(n-1))>'0')
-        count+=numDecodings_memo(s , n-1 ,dp);
+        if((s.charAt(n-1))>'0')  //agar 0 hai piche to answer nhi bangea
+        count+=numDecodings_memo(s ,     n-1 ,dp);
         if(n>1){
             int num = (s.charAt(n-2) -'0')*10+(s.charAt(n-1)-'0');
             if(num<=26 && num>=10){
 
                 count+=numDecodings_memo(s , n-2 , dp);
             }
-        }
+        }   
         return dp[n] = count;
 
-     }
+     }  
      public int numDecodings_memo2(String s , int idx ,int[] dp){
         if(idx == s.length()){
             return dp[idx]=1;
@@ -359,6 +359,9 @@ public static int goldMine_memo_(int sr, int sc, int[][] mat, int[][] dir, int[]
         return ans;
 
      }
+
+    // ============================================================
+
      public long numDecodingsStar(String s , int idx , long[] dp){
         if(idx==s.length()){
             return dp[idx] = 1;
@@ -464,4 +467,104 @@ public static int goldMine_memo_(int sr, int sc, int[][] mat, int[][] dir, int[]
     public static void main(String[] args){
         fibo_Set();
     }
+
+
+    //frineds pairing
+
+
+    public static long friendsPairing(int n , long[] dp){
+        if(n<=1){
+            return dp[n] = 1;
+        }
+
+        if(dp[n]!=0){
+            return dp[n];
+        }
+        int mod = (int) 1e9 + 7;
+        long single = friendsPairing(n-1, dp);
+        long pairup = friendsPairing(n-2, dp)*(n-1);
+
+        return dp[n] = (single+pairup%mod)%mod;
+    }
+
+    public long friendsPairing_tabu(int N ,long[] dp) 
+    { 
+        int mod = (int)1e9+7;
+        for(int n = 0 ; n <= N ; n++){
+            if(n<=1){
+                 dp[n] = 1;
+                continue;
+            }
+    
+            if(dp[n]!=0){
+                return dp[n];
+            }
+            long single = dp[n-1];
+            long pairup = dp[n-2]*(n-1);
+            dp[n] = (single + pairup%mod) %mod;
+
+        }
+        return dp[N];
+        
+
+    }
+
+
+    public long countFriendsPairings(int n){
+        long[] dp = new long[n+1];
+        return friendsPairing_tabu(n, dp);
+    }
+
+
+     // https://www.geeksforgeeks.org/count-the-number-of-ways-to-divide-n-in-k-groups-incrementally
+    //count the number of ways to divide    N in k groups incrementally
+
+    public static int divideInKGroup(int n ,  int k , int[][] dp){
+        if(k==1 || n==k){
+            return dp[n] = 1;
+        }
+
+        if(dp[n][k]!= - 1){
+            return dp[n][k];
+        }
+
+        int selfSet = divideInKGroup(n-1, k-1, dp);
+        int pairOfAnotherSet = divideInKGroup(n-1, k, dp)* k;
+
+        return dp[n][k] = selfSet + pairOfAnotherSet;
+    }
+
+    public static int divideInKGroup_Dp(int N ,  int K , int[][] dp){
+        for(int n = 1 ; n <= N ; n++){
+            for(int k = 1; k <= K ; k++){
+                if(k>n){
+                    break;
+                }
+                if(k==1 || n==1){
+                    dp[n][k] = 1;
+                    continue;
+                }
+
+                int selfSet = dp[n-1][k-1]; //divideInKGroup
+                int pairOfAnotherSet = dp[n-1][k]*k;
+                dp[n][k] = selfSet + pairOfAnotherSet;
+            }
+        }
+        return dp[N][K];
+    }
+
+    public static void divideInKGroup(){
+        int n = 5 , k = 3;
+        int[][] dp = new int[n+1][k+1];
+        for(int[] d:dp){
+            Arrays.fill(d,-1);
+        }
+        System.out.println(divideInKGroup(n , k ,dp));
+        
+    }
+
+    
+    //mobile keypad wala question
+    
+
 }

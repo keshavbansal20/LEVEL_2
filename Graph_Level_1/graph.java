@@ -540,20 +540,148 @@ public class graph {
                     vis[rem.vtx]=true;
 
                     //work
-                    
+                    System.out.println(rem.vtx+"via"+rem.psf+"@"+ rem.wsf);
+
+                    //add nbrs
+
+                    for(Edge edge:graph[rem.vtx]){
+                        if(vis[edge.nbr] == false){
+                            que.add(new Dpair(edge.nbr , rem.psf + edge.nbr , rem.psf + edge.wt));
+                        }
+                    }
+
                 }
             }
+
+
+            //minimum spanning tree
+            // subgraph
+            // tree (connected , acyclic)
+            //spanning ( all vertices )
+            // out of all which mst have min edge wt is called mst
+
+
+            //prims
     
-    
+            public static class Pair implements Comparable<Pair>{
+                int vtx;
+                int acq;
+                int wt;
+                Pair(int vtx , int acq , int wt){
+                    this.vtx = vtx;
+                    this.acq = acq;
+                    this.wt = wt;
+                }
+                public int compareTo(Pair o){
+                    return this.wt - o.wt;
+                }
+            }
+
+            public static void minSpanningTree(ArrayList<Edge>[] graph){
+                boolean[] vis = new boolean[graph.length];
+                PriorityQueue<Pair> pq  = new PriorityQueue<>();
+
+                pq.add(new Pair(0  , -1 , 0));
+                while(pq.size()>0){
+                    //remove
+                    Pair rem = pq.remove();
+
+                    //mark*
+                    if(vis[rem.vtx]==true){
+                        continue;
+                    }
+                    vis[rem.vtx] = true;
+                    
+                    //work
+                    if(rem.acq != -1)
+                    System.out.println("[" + rem.vtx+"-"+rem.acq+"@"+rem.wt+"]");
+                    
+                    for(Edge edge:graph[rem.vtx]){
+                        int nbr = edge.nbr;
+                        if(vis[nbr]==false){
+                            pq.add(new Pair(nbr , rem.vtx , edge.wt));
+                        }
+                    }
+                }
+            }
 
 
 
+            //topological-sort
+            public class Edge{
+                int src;
+                int nbr;
+                Edge(int src , int nbr){
+                    this.src = src;
+                    this.nbr = nbr;
+                }
+            }
+
+            public static void travel(ArrayList<Edge>[] graph , int src , boolean[] vis , Stack<Integer> st){
+
+                vis[src] = true;
+                for(Edge edge:graph[src]){
+                    int nbr = edge.nbr;
+                    if(vis[nbr]==false){
+                        travel(graph , nbr , vis ,st);
+                    }
+                }
+                st.push(src);
+            }
+            public static void topologicalSort(ArrayList<Edge>[] graph){
+                boolean[] vis = new boolean[graph.length];
+                Stack<Integer> st = new Stack<>();
+
+                for(int src = 0 ; src < graph.length ; src++){
+                    if(vis[src]==false){
+                        travel(graph , src , vis , st);
+                    }
+                }
+
+                //print topological sort
+                while(st.size()>0){
+                    System.out.println(st.pop());
+                }
+            }
 
 
 
+            //iterative_dfs --> agar graph ki nodes greater than 1 lakh hojaye
+            public static class Pair{
+                int vtx;
+                String psf;
 
+                Pair(int vtx , String psf){
+                    this.vtx = vtx;
+                    this.psf = psf;
+                }
+            }
 
+            public static void iterative_dfs(ArrayList<Edge>[] graph , int src){
+                boolean[] vis = new boolean[graph.length];
+                Stack<Pair> st = new Stack<>();
+                st.push(new Pair(src , src+""));
+                while(st.size()>0){
+                    //remove
+                    Pair rem  = st.pop();
 
-   
+                    //mark*
+                    if(vis[rem.vtx]==true){
+                        continue;
+                    }
+                    vis[rem.vtx]=true;
+                    
+                    //work
+                    System.out.println(rem.vtx +"@"+rem.psf);
+                    
+                    //add unvisited nbr
+                    for(Edge edge:graph[rem.vtx]){
+                        int nbr = edge.nbr;
+                        if(vis[nbr]==false){
+                            st.push(new Pair(nbr , rem.psf+nbr));
+                        }
+                    }
+                }
+            }
 
-}
+        }

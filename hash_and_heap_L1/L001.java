@@ -14,7 +14,7 @@ public class L001{
             }else{
                 hm.put(ch ,1);
             }
-        }
+        }   
 
         char mfc  = str.charAt(0);
         for(Character key:hm.keySet()){
@@ -124,7 +124,7 @@ public class L001{
                 int tsp = val;
                 while(map.containsKey(tsp+tl)){
                     tl++;
-                }
+                }   
                 if(tl>ml){
                     msp = tsp;
                     ml = tl;
@@ -204,9 +204,9 @@ public class L001{
         public void add(int val) {
           // write your code here
           if(right.size()>0 && val>right.peek()){
-              right.add(left.remove());
+              right.add(val);
           }else{
-              left.add(right.remove());
+              left.add(val);
           }
           if(left.size()-right.size()==2){
               right.add(left.remove());
